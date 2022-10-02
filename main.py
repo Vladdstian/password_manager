@@ -1,8 +1,19 @@
 import random
+import csv
 
 
 def generate_password(no_of_char):
     return no_of_char
+
+
+def save(account):
+    # TODO - update the function so that it will write only the first time the line with the column names
+    with open("my_passwords.csv", "a") as file:
+        column_names = ["website", "username", "password"]
+        data = [account["website"], account["username"], account["password"]]
+        writer = csv.writer(file)
+        writer.writerows(column_names)
+        writer.writerow(data)
 
 
 new_account = {}
@@ -37,5 +48,7 @@ for key in new_account:
         new_account = {}
     else:
         continue
-
-print(new_account)
+if new_account == {}:
+    pass
+else:
+    save(new_account)
