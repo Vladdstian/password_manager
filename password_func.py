@@ -26,20 +26,17 @@ def password_request():
 
 
 def generate_password(no_of_char):
-    password_list = []
     max_letters = int(no_of_char * 0.5)
     max_numbers = int(no_of_char * 0.25)
     max_symbols = int(no_of_char * 0.25)
     if max_symbols + max_numbers + max_letters != no_of_char:
         max_letters += no_of_char - (max_symbols + max_numbers + max_letters)
-    for letter in range(0, max_letters):
-        password_list.append(random.choice(LETTERS))
-    for number in range(0, max_numbers):
-        password_list.append(random.choice(NUMBERS))
-    for symbol in range(0, max_symbols):
-        password_list.append(random.choice(SYMBOLS))
+
+    # password_list.append(random.choice(LETTERS)) for letter in range(0, max_letters)
+    password_letters = [random.choice(LETTERS) for _ in range(max_letters)]
+    password_numbers = [random.choice(NUMBERS) for _ in range(max_numbers)]
+    password_symbols = [random.choice(SYMBOLS) for _ in range(max_symbols)]
+    password_list = password_letters+password_numbers+password_symbols
     random.shuffle(password_list)
-    password = ""
-    for char in password_list:
-        password += char
+    password = "".join(password_list)
     return password
