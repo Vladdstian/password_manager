@@ -1,54 +1,36 @@
-import random
+import password_func
+import os
 import csv
 
-
-def generate_password(no_of_char):
-    return no_of_char
+with open("Password.csv", "a", newline='') as file:
+    writer = csv.writer(file)
+    if os.path.getsize("Password.csv") == 0:
+        column_names = ["website", "username", "password"]
+        writer.writerow(column_names)
+    else:
+        pass
 
 
 def save(account):
     # TODO - update the function so that it will write only the first time the line with the column names
-    with open("my_passwords.csv", "a") as file:
-        column_names = ["website", "username", "password"]
+    with open("Password.csv", "a", newline='') as file:
+        data_writer = csv.writer(file)
         data = [account["website"], account["username"], account["password"]]
-        writer = csv.writer(file)
-        writer.writerows(column_names)
-        writer.writerow(data)
+        data_writer.writerow(data)
 
 
-new_account = {}
 website = input("Please enter the website for which you are creating an account: ")
-new_account["website"] = website
-
 username = input("Please enter the username/email address you want to use for the account: ")
-new_account["username"] = username
-
-password_setup = True
-while password_setup:
-    password_choice = int(input("Would you like to (1)add a password or (2)generate one? "))
-    if password_choice == 1:
-        password = input("Please type the password you desire: ")
-        new_account["password"] = password
-        password_setup = False
-    elif password_choice == 2:
-        no_of_char = int(input("How many characters would you like your password to be? "))
-        password = generate_password(no_of_char)
-        new_account["password"] = password
-        password_setup = False
-    elif password_choice == 3:
-        print("Thank you for using password service!")
-        new_account["password"] = ""
-        break
-    else:
-        print("I don't understand! Please try again or type (3) to cancel!\n\n")
-        continue
+new_account = {"website": website, "username": username, "password": password_func.password_request()}
 
 for key in new_account:
     if new_account[key] == "":
+        print(f"You haven't entered any {key}. Would you like to update it?")
         new_account = {}
     else:
         continue
-if new_account == {}:
-    pass
-else:
+
+if new_account != {}:
     save(new_account)
+else:
+    pass
