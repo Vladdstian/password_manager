@@ -14,7 +14,6 @@ with open("Password.csv", "a", newline='') as file:
 
 # this function is used to save the data inside the csv file
 def save(account):
-    # TODO - update the function so that it will write only the first time the line with the column names
     with open("Password.csv", "a", newline='') as file:
         data_writer = csv.writer(file)
         data = [account["website"], account["username"], account["password"]]
@@ -30,8 +29,11 @@ new_account = {"website": website, "username": username, "password": password_fu
 # TODO - to be implemented inside the save function
 for key in new_account:
     if new_account[key] == "":
-        print(f"You haven't entered any {key}. Would you like to update it?")
-        new_account = {}
+        input_request = input(f"You haven't entered any {key}. Would you like to update it?")
+        if input_request == 'y':
+            new_account[key] = input(f"Please enter the {key} for which you are creating an account: ")
+        else:
+            new_account = {}
     else:
         continue
 
