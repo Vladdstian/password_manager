@@ -1,8 +1,8 @@
 password manager program 
 
 Things to do: 
-* update the code to generate a password
-* save the used passwords in a file locally (future use personal gdrive)
+* ~~update the code to generate a password~~
+* ~~save the used passwords in a file locally~~ (future use personal gdrive)
 * connect with gdrive and use api
 * see if it is possible to extract passwords from iphone or android devices 
 * ...
