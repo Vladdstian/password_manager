@@ -2,6 +2,7 @@ import password_func
 import os
 import csv
 
+# this block will execute once to create the csv file locally and add the column names
 with open("Password.csv", "a", newline='') as file:
     writer = csv.writer(file)
     if os.path.getsize("Password.csv") == 0:
@@ -11,6 +12,7 @@ with open("Password.csv", "a", newline='') as file:
         pass
 
 
+# this function is used to save the data inside the csv file
 def save(account):
     # TODO - update the function so that it will write only the first time the line with the column names
     with open("Password.csv", "a", newline='') as file:
@@ -19,10 +21,13 @@ def save(account):
         data_writer.writerow(data)
 
 
+# Request user inputs for the new account
 website = input("Please enter the website for which you are creating an account: ")
 username = input("Please enter the username/email address you want to use for the account: ")
 new_account = {"website": website, "username": username, "password": password_func.password_request()}
 
+# Check if all the fields are filled and not empty -
+# TODO - to be implemented inside the save function
 for key in new_account:
     if new_account[key] == "":
         print(f"You haven't entered any {key}. Would you like to update it?")
