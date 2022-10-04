@@ -25,6 +25,39 @@ def generate_password(no_char):
     return password
 
 
+# Added encrypt and decode functions to save account into the csv file details directly encrypted
+def encrypt(message, shift):
+    message_list = []
+    coded_message = ""
+    for letter in message:
+        if letter in LETTERS:
+            index = LETTERS.index(letter) + shift
+            if index >= len(LETTERS):
+                index -= len(LETTERS)
+            message_list.append(LETTERS[index])
+        else:
+            message_list.append(letter)
+    for letter in message_list:
+        coded_message += letter
+    return coded_message
+
+
+def decode(message, shift):
+    message_list = []
+    decoded_message = ""
+    for letter in message:
+        if letter in LETTERS:
+            index = LETTERS.index(letter) - shift
+            if index < 0:
+                index += len(LETTERS)
+            message_list.append(LETTERS[index])
+        else:
+            message_list.append(letter)
+    for letter in message_list:
+        decoded_message += letter
+    return decoded_message
+
+
 class Account:
     def __init__(self):
         self.account_details = self.create_account()
@@ -77,4 +110,3 @@ class Account:
                                 self.account_details["username"],
                                 self.account_details["password"]])
                 return True
-    # save account to be moved into the gmail account
