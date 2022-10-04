@@ -30,9 +30,9 @@ class Account:
         self.account_details = self.create_account()
 
     def create_account(self):
-        password = self.password_request()
         website = input("Please enter the website for which you are creating an account: ")
         username = input("Please enter the username/email address you want to use for the account: ")
+        password = self.password_request()
         account_details = {"website": website, "username": username, "password": password}
         return account_details
 
@@ -56,20 +56,25 @@ class Account:
     def save_account(self):
         for key in self.account_details:
             if self.account_details[key] == "":
-                input_request = input(f"You haven't entered any details for the {key}. Would you like to update it?")
+                input_request = input(f"You haven't entered any details for the {key}. Would you like to update it?("
+                                      f"y/n) ")
                 if input_request == 'y':
                     self.account_details[key] = input(f"Please enter the {key} for which you are creating an account: ")
                 else:
                     self.account_details = {}
+                    choice = input("Would you like to add another account? (y/n)")
+                    if choice == 'y':
+                        self.create_account()
+                    else:
+                        return False
         if self.account_details != {}:
             with open(ACCOUNTS, "a", newline='') as file:
                 writer = csv.writer(file)
                 if os.path.getsize(ACCOUNTS) == 0:
                     column_names = ["website", "username", "password"]
                     writer.writerow(column_names)
-                else:
-                    pass
-        else:
-            pass
-
+                writer.writerow([self.account_details["website"],
+                                self.account_details["username"],
+                                self.account_details["password"]])
+                return True
     # save account to be moved into the gmail account
