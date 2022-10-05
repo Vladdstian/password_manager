@@ -86,7 +86,7 @@ class Account:
             print("I don't understand! Please try again or type (3) to cancel!\n\n")
             return self.password_request()
 
-    def save_account(self):
+    def save_account(self, encrypt_decode_key):
         for key in self.account_details:
             if self.account_details[key] == "":
                 input_request = input(f"You haven't entered any details for the {key}. Would you like to update it?("
@@ -106,7 +106,8 @@ class Account:
                 if os.path.getsize(ACCOUNTS) == 0:
                     column_names = ["website", "username", "password"]
                     writer.writerow(column_names)
-                writer.writerow([self.account_details["website"],
-                                self.account_details["username"],
-                                self.account_details["password"]])
+                website = encrypt(self.account_details["website"], encrypt_decode_key)
+                username = encrypt(self.account_details["username"], encrypt_decode_key)
+                password = encrypt(self.account_details["password"], encrypt_decode_key)
+                writer.writerow([website, username, password])
                 return True
