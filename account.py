@@ -1,13 +1,14 @@
 import random
 import os
 import csv
+from cryptography.fernet import Fernet
 
 LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
            'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
-ACCOUNTS = "Password.csv"
+
 
 
 def generate_password(no_char):
@@ -23,39 +24,6 @@ def generate_password(no_char):
     random.shuffle(password_list)
     password = "".join(password_list)
     return password
-
-
-# Added encrypt and decode functions to save account into the csv file details directly encrypted
-def encrypt(message, shift):
-    message_list = []
-    coded_message = ""
-    for letter in message:
-        if letter in LETTERS:
-            index = LETTERS.index(letter) + shift
-            if index >= len(LETTERS):
-                index -= len(LETTERS)
-            message_list.append(LETTERS[index])
-        else:
-            message_list.append(letter)
-    for letter in message_list:
-        coded_message += letter
-    return coded_message
-
-
-def decode(message, shift):
-    message_list = []
-    decoded_message = ""
-    for letter in message:
-        if letter in LETTERS:
-            index = LETTERS.index(letter) - shift
-            if index < 0:
-                index += len(LETTERS)
-            message_list.append(LETTERS[index])
-        else:
-            message_list.append(letter)
-    for letter in message_list:
-        decoded_message += letter
-    return decoded_message
 
 
 class Account:
@@ -106,8 +74,8 @@ class Account:
                 if os.path.getsize(ACCOUNTS) == 0:
                     column_names = ["website", "username", "password"]
                     writer.writerow(column_names)
-                website = encrypt(self.account_details["website"], encrypt_decode_key)
-                username = encrypt(self.account_details["username"], encrypt_decode_key)
-                password = encrypt(self.account_details["password"], encrypt_decode_key)
+                website = self.account_details["website"]
+                username = self.account_details["username"]
+                password = self.account_details["password"]
                 writer.writerow([website, username, password])
                 return True
