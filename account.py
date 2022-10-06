@@ -1,14 +1,12 @@
 import random
-import os
 import csv
-from cryptography.fernet import Fernet
+from file_management import ACCOUNTS
 
 LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
            'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
-
 
 
 def generate_password(no_char):
@@ -54,7 +52,7 @@ class Account:
             print("I don't understand! Please try again or type (3) to cancel!\n\n")
             return self.password_request()
 
-    def save_account(self, encrypt_decode_key):
+    def save_account(self):
         for key in self.account_details:
             if self.account_details[key] == "":
                 input_request = input(f"You haven't entered any details for the {key}. Would you like to update it?("
@@ -71,9 +69,6 @@ class Account:
         if self.account_details != {}:
             with open(ACCOUNTS, "a", newline='') as file:
                 writer = csv.writer(file)
-                if os.path.getsize(ACCOUNTS) == 0:
-                    column_names = ["website", "username", "password"]
-                    writer.writerow(column_names)
                 website = self.account_details["website"]
                 username = self.account_details["username"]
                 password = self.account_details["password"]
